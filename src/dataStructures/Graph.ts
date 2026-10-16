@@ -1,6 +1,8 @@
 import { GraphNode } from './GraphNode';
 import { GraphEdge } from './GraphEdge';
 
+export { GraphNode, GraphEdge };
+
 /**
  * Manual implementation of a Directed Weighted Graph using an Adjacency List.
  * Provides complete support for bank transaction network analysis.

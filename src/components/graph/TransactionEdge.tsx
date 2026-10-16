@@ -30,8 +30,8 @@ export const TransactionEdge = memo(
     const isCycle = data?.isCycleEdge;
     const isHighlighted = data?.isHighlighted;
 
-    const strokeColor = isCycle ? '#dc2626' : isHighlighted ? '#2563eb' : '#64748b';
-    const strokeWidth = isCycle ? 2.5 : isHighlighted ? 2.5 : 1.2;
+    const strokeColor = isCycle ? '#dc2626' : isHighlighted ? '#2563eb' : '#94a3b8';
+    const strokeWidth = isCycle ? 2.5 : isHighlighted ? 2.5 : 1.4;
 
     return (
       <>
@@ -56,17 +56,17 @@ export const TransactionEdge = memo(
                 pointerEvents: 'all',
               }}
               title={`Tx: ${data.transactionId} | Amount: ₹${data.amount.toLocaleString('en-IN')}`}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-mono border shadow-sm transition-all select-none cursor-pointer ${
+              className={`px-1.5 py-0.5 rounded text-[10px] font-mono border shadow-xs transition-all select-none cursor-pointer ${
                 isCycle
-                  ? 'bg-rose-950 text-rose-300 border-rose-600 font-bold'
+                  ? 'bg-rose-950 text-rose-400 border-rose-800 font-bold'
                   : isHighlighted
-                  ? 'bg-cyan-950 text-cyan-400 border-cyan-400 font-bold'
-                  : 'bg-white text-slate-300 border-slate-700 hover:border-slate-500'
+                  ? 'bg-cyan-950 text-cyan-400 border-cyan-800 font-bold'
+                  : 'bg-white text-slate-200 border-slate-700 hover:border-slate-500'
               }`}
             >
               <div className="flex items-center gap-1">
                 <span className="font-semibold">{formatCompactINR(data.amount)}</span>
-                <span className="text-[8px] text-slate-500">({data.transactionId})</span>
+                <span className="text-[8px] text-slate-400">({data.transactionId})</span>
               </div>
             </div>
           </EdgeLabelRenderer>

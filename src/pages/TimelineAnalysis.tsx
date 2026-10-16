@@ -17,6 +17,11 @@ export const TimelineAnalysis: React.FC<TimelineAnalysisProps> = ({
 }) => {
   const [activeSlice, setActiveSlice] = useState<Transaction[]>(transactions);
 
+  React.useEffect(() => {
+    setActiveSlice(transactions);
+  }, [transactions]);
+
+
   // Dynamic partial graph built from active time slice
   const partialGraph = useMemo(() => {
     return buildGraphFromTransactions(activeSlice);

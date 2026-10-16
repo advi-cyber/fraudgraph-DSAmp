@@ -36,119 +36,148 @@ export const Sidebar: React.FC<SidebarProps> = ({
   detectedCyclesCount,
   suspiciousRingsCount,
 }) => {
-  const navItems = [
+  const navGroups = [
     {
-      id: 'dashboard' as PageTab,
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-      badge: null,
+      group: 'Overview',
+      items: [
+        {
+          id: 'dashboard' as PageTab,
+          label: 'Dashboard',
+          icon: LayoutDashboard,
+          badge: null,
+          badgeColor: '',
+        },
+      ],
     },
     {
-      id: 'transactions' as PageTab,
-      label: 'Transactions',
-      icon: ReceiptText,
-      badge: null,
+      group: 'Investigation',
+      items: [
+        {
+          id: 'transactions' as PageTab,
+          label: 'Transaction Ledger',
+          icon: ReceiptText,
+          badge: null,
+          badgeColor: '',
+        },
+        {
+          id: 'network' as PageTab,
+          label: 'Network Visualizer',
+          icon: Network,
+          badge: null,
+          badgeColor: '',
+        },
+        {
+          id: 'fraud-rings' as PageTab,
+          label: 'Fraud Ring Detector',
+          icon: ShieldAlert,
+          badge: suspiciousRingsCount > 0 ? `${suspiciousRingsCount} Rings` : null,
+          badgeColor: 'bg-rose-950 text-rose-400 border-rose-800',
+        },
+        {
+          id: 'investigation' as PageTab,
+          label: 'Account Investigation',
+          icon: SearchCode,
+          badge: null,
+          badgeColor: '',
+        },
+        {
+          id: 'timeline' as PageTab,
+          label: 'Timeline Replay',
+          icon: History,
+          badge: detectedCyclesCount > 0 ? `${detectedCyclesCount} Cycles` : null,
+          badgeColor: 'bg-amber-950 text-amber-400 border-amber-800',
+        },
+      ],
     },
     {
-      id: 'network' as PageTab,
-      label: 'Network Visualizer',
-      icon: Network,
-      badge: null,
+      group: 'DSA Laboratory',
+      items: [
+        {
+          id: 'comparison' as PageTab,
+          label: 'BFS vs DFS Traversal',
+          icon: ArrowRightLeft,
+          badge: 'CO4',
+          badgeColor: 'bg-cyan-950 text-cyan-400 border-cyan-800',
+        },
+        {
+          id: 'simulator' as PageTab,
+          label: 'What-If Edge Simulator',
+          icon: GitFork,
+          badge: 'Sim',
+          badgeColor: 'bg-blue-950 text-blue-400 border-blue-800',
+        },
+      ],
     },
     {
-      id: 'fraud-rings' as PageTab,
-      label: 'Fraud Ring Detector',
-      icon: ShieldAlert,
-      badge: suspiciousRingsCount > 0 ? `${suspiciousRingsCount} Rings` : null,
-      badgeColor: 'bg-rose-900/60 text-rose-300 border-rose-700/50',
-    },
-    {
-      id: 'investigation' as PageTab,
-      label: 'Account Investigation',
-      icon: SearchCode,
-      badge: null,
-    },
-    {
-      id: 'timeline' as PageTab,
-      label: 'Timeline Replay',
-      icon: History,
-      badge: 'Novelty',
-      badgeColor: 'bg-amber-950 text-amber-300 border-amber-800',
-    },
-    {
-      id: 'simulator' as PageTab,
-      label: 'What-If Simulator',
-      icon: GitFork,
-      badge: 'Sim',
-      badgeColor: 'bg-purple-950 text-purple-300 border-purple-800',
-    },
-    {
-      id: 'comparison' as PageTab,
-      label: 'BFS vs DFS Lab',
-      icon: ArrowRightLeft,
-      badge: 'DSA',
-      badgeColor: 'bg-cyan-950 text-cyan-300 border-cyan-800',
-    },
-    {
-      id: 'reports' as PageTab,
-      label: 'Audit Reports',
-      icon: FileCheck2,
-      badge: null,
+      group: 'Reporting',
+      items: [
+        {
+          id: 'reports' as PageTab,
+          label: 'Forensic Audit Dossier',
+          icon: FileCheck2,
+          badge: null,
+          badgeColor: '',
+        },
+      ],
     },
   ];
 
   return (
-    <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
-      <div className="p-4 space-y-1">
-        <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">
-          Core Navigation
-        </div>
+    <aside className="w-64 bg-white border-r border-slate-800 flex flex-col justify-between shrink-0 select-none">
+      <div className="p-3.5 space-y-4 overflow-y-auto">
+        {navGroups.map((grp) => (
+          <div key={grp.group} className="space-y-1">
+            <div className="px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
+              {grp.group}
+            </div>
 
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
+            {grp.items.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                isActive
-                  ? 'bg-cyan-950 text-cyan-400 border border-cyan-800 font-bold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-100 border border-transparent'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Icon
-                  className={`w-4 h-4 transition-colors ${
-                    isActive ? 'text-cyan-400' : 'text-slate-500'
-                  }`}
-                />
-                <span>{item.label}</span>
-              </div>
-
-              {item.badge && (
-                <span
-                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
-                    item.badgeColor || 'bg-slate-100 text-slate-300 border-slate-700'
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onTabChange(item.id)}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-cyan-950 text-cyan-400 border border-cyan-800 font-bold shadow-xs'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-50 border border-transparent'
                   }`}
                 >
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
+                  <div className="flex items-center gap-2.5">
+                    <Icon
+                      className={`w-4 h-4 transition-colors ${
+                        isActive ? 'text-cyan-400' : 'text-slate-500'
+                      }`}
+                    />
+                    <span>{item.label}</span>
+                  </div>
+
+                  {item.badge && (
+                    <span
+                      className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                        item.badgeColor || 'bg-slate-100 text-slate-400 border-slate-700'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       {/* Academic syllabus footer */}
-      <div className="p-4 border-t border-slate-800/80 bg-slate-950/40 text-[11px] text-slate-400 space-y-2">
-        <div className="flex items-center gap-1.5 font-semibold text-slate-300">
+      <div className="p-3.5 border-t border-slate-800 bg-slate-50 text-[11px] text-slate-400 space-y-1.5">
+        <div className="flex items-center gap-1.5 font-semibold text-slate-200">
           <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-          <span>Academic DSA Rigor</span>
+          <span className="font-mono text-[10px] uppercase tracking-wider">Academic DSA Rigor</span>
         </div>
-        <p className="text-[10px] leading-relaxed text-slate-400">
-          Manually implemented Adjacency List Directed Graph, FIFO Queue, Min-Heap Priority Queue, Tarjan SCC & 3-State Cycle Detection.
+        <p className="text-[10px] leading-relaxed text-slate-500 font-sans">
+          Adjacency List Directed Graph, FIFO Queue, Min-Heap PQ, Tarjan SCC & 3-State Directed Cycle Detection.
         </p>
       </div>
     </aside>

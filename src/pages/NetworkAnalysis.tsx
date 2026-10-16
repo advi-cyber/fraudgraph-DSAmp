@@ -21,6 +21,17 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
   );
   const [filterCyclesOnly, setFilterCyclesOnly] = useState(false);
 
+  React.useEffect(() => {
+    const nodeIds = graph.getNodeIds();
+    setFilterCyclesOnly(false);
+    if (nodeIds.length > 0 && !nodeIds.includes(selectedNodeId)) {
+      setSelectedNodeId(nodeIds[0]);
+    } else if (nodeIds.length === 0) {
+      setSelectedNodeId('');
+    }
+  }, [graph]);
+
+
   const cycleResult = detectDirectedCycles(graph);
   const cycleEdges = cycleResult.cycles.flatMap((c) => c.edgeIds);
 
@@ -35,16 +46,16 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
   return (
     <div className="space-y-4">
       {/* Top Banner */}
-      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-blue-950 text-blue-400 border border-blue-800">
+          <div className="p-2 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
             <Network className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold font-mono text-slate-100 uppercase tracking-wide">
+            <h2 className="text-sm font-bold font-mono text-slate-900 uppercase tracking-wide">
               INTERACTIVE DIRECTED GRAPH NETWORK TOPOLOGY
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               Accounts as vertices |V|, transactions as directed weighted edges |E|. Click any node to inspect local topology.
             </p>
           </div>
@@ -52,11 +63,11 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
 
         {/* Quick Node Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-slate-400">Inspect Node:</span>
+          <span className="text-xs font-mono text-slate-600">Inspect Node:</span>
           <select
             value={selectedNodeId}
             onChange={(e) => setSelectedNodeId(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono text-cyan-400 focus:outline-none"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-mono text-blue-700 font-bold focus:outline-none"
           >
             {graph.getNodeIds().map((id) => (
               <option key={id} value={id}>
@@ -85,22 +96,22 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
         {/* Right: Detailed Node Inspector (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
           {selectedNode ? (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg space-y-4 font-mono select-none">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-4 font-mono select-none">
               {/* Header */}
-              <div className="pb-3 border-b border-slate-800 flex items-center justify-between">
+              <div className="pb-3 border-b border-slate-200 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">
                     Account Inspector
                   </span>
-                  <h3 className="text-base font-bold text-slate-100">{selectedNode.id}</h3>
-                  <div className="text-[11px] text-slate-400 font-sans truncate max-w-[200px]">
+                  <h3 className="text-base font-bold text-slate-900">{selectedNode.id}</h3>
+                  <div className="text-[11px] text-slate-500 font-sans truncate max-w-[200px]">
                     {selectedNode.metadata.accountHolder || selectedNode.id}
                   </div>
                 </div>
 
                 <button
                   onClick={() => onInvestigateAccount(selectedNode.id)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-sans font-semibold bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer shadow-md shadow-cyan-600/20"
+                  className="px-3 py-1.5 rounded-lg text-xs font-sans font-semibold bg-blue-600 hover:bg-blue-500 text-white cursor-pointer shadow-sm transition-all"
                 >
                   Full Audit
                 </button>
@@ -108,22 +119,22 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
 
               {/* Degrees & Balances */}
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
-                  <div className="flex items-center gap-1 text-[10px] text-slate-400 uppercase mb-0.5">
-                    <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-400" />
+                <div className="p-2.5 rounded bg-slate-50 border border-slate-200">
+                  <div className="flex items-center gap-1 text-[10px] text-slate-500 uppercase mb-0.5">
+                    <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-600" />
                     <span>In-Degree:</span>
                   </div>
-                  <div className="text-sm font-bold text-emerald-400">
+                  <div className="text-sm font-bold text-emerald-700">
                     {inEdges.length} ({formatINR(graph.getTotalInAmount(selectedNode.id))})
                   </div>
                 </div>
 
-                <div className="p-2.5 rounded bg-slate-950 border border-slate-800">
-                  <div className="flex items-center gap-1 text-[10px] text-slate-400 uppercase mb-0.5">
-                    <ArrowUpRight className="w-3.5 h-3.5 text-amber-400" />
+                <div className="p-2.5 rounded bg-slate-50 border border-slate-200">
+                  <div className="flex items-center gap-1 text-[10px] text-slate-500 uppercase mb-0.5">
+                    <ArrowUpRight className="w-3.5 h-3.5 text-amber-600" />
                     <span>Out-Degree:</span>
                   </div>
-                  <div className="text-sm font-bold text-amber-400">
+                  <div className="text-sm font-bold text-amber-800">
                     {outEdges.length} ({formatINR(graph.getTotalOutAmount(selectedNode.id))})
                   </div>
                 </div>
@@ -134,7 +145,7 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
 
               {/* Direct Inflow Neighbors */}
               <div className="space-y-1">
-                <span className="text-[10px] uppercase text-slate-400 block">
+                <span className="text-[10px] uppercase text-slate-500 block font-semibold">
                   Inflow Sources ({inEdges.length}):
                 </span>
                 <div className="max-h-28 overflow-y-auto space-y-1">
@@ -142,21 +153,21 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
                     <div
                       key={e.id}
                       onClick={() => setSelectedNodeId(e.source)}
-                      className="p-1.5 rounded bg-slate-950 hover:bg-slate-800 border border-slate-800/80 text-[11px] flex justify-between items-center cursor-pointer"
+                      className="p-1.5 rounded bg-slate-50 hover:bg-slate-100 border border-slate-200 text-[11px] flex justify-between items-center cursor-pointer transition-colors"
                     >
-                      <span className="text-slate-300 font-semibold">{e.source}</span>
-                      <span className="text-emerald-400">{formatINR(e.weight)}</span>
+                      <span className="text-slate-800 font-semibold">{e.source}</span>
+                      <span className="text-emerald-700 font-semibold">{formatINR(e.weight)}</span>
                     </div>
                   ))}
                   {inEdges.length === 0 && (
-                    <span className="text-slate-600 text-xs">No direct inbound edges</span>
+                    <span className="text-slate-400 text-xs">No direct inbound edges</span>
                   )}
                 </div>
               </div>
 
               {/* Direct Outflow Neighbors */}
               <div className="space-y-1">
-                <span className="text-[10px] uppercase text-slate-400 block">
+                <span className="text-[10px] uppercase text-slate-500 block font-semibold">
                   Outflow Destinations ({outEdges.length}):
                 </span>
                 <div className="max-h-28 overflow-y-auto space-y-1">
@@ -164,20 +175,20 @@ export const NetworkAnalysis: React.FC<NetworkAnalysisProps> = ({
                     <div
                       key={e.id}
                       onClick={() => setSelectedNodeId(e.target)}
-                      className="p-1.5 rounded bg-slate-950 hover:bg-slate-800 border border-slate-800/80 text-[11px] flex justify-between items-center cursor-pointer"
+                      className="p-1.5 rounded bg-slate-50 hover:bg-slate-100 border border-slate-200 text-[11px] flex justify-between items-center cursor-pointer transition-colors"
                     >
-                      <span className="text-slate-300 font-semibold">{e.target}</span>
-                      <span className="text-amber-400">{formatINR(e.weight)}</span>
+                      <span className="text-slate-800 font-semibold">{e.target}</span>
+                      <span className="text-amber-800 font-semibold">{formatINR(e.weight)}</span>
                     </div>
                   ))}
                   {outEdges.length === 0 && (
-                    <span className="text-slate-600 text-xs">No direct outbound edges</span>
+                    <span className="text-slate-400 text-xs">No direct outbound edges</span>
                   )}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 text-center text-slate-500 font-mono text-xs">
+            <div className="p-6 rounded-xl bg-white border border-slate-200 text-center text-slate-500 font-mono text-xs shadow-sm">
               Select a node to inspect local degree and balance.
             </div>
           )}
