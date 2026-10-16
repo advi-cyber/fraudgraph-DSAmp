@@ -54,11 +54,11 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
   };
 
   return (
-    <div className="bg-white border border-slate-800 rounded-xl p-4 shadow-sm space-y-4 select-none">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-4 select-none">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-200">
         <div className="flex items-center gap-2">
-          <Play className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-xs uppercase font-bold tracking-wider text-slate-100 font-mono">
+          <Play className="w-4 h-4 text-blue-600" />
+          <h3 className="text-xs uppercase font-bold tracking-wider text-slate-800 font-mono">
             DSA Algorithm Laboratory
           </h3>
         </div>
@@ -67,12 +67,12 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
             <button
               onClick={onResetHighlights}
               title="Clear active highlights on canvas"
-              className="p-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-100 border border-slate-700 transition-colors cursor-pointer"
+              className="p-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
             </button>
           )}
-          <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">
+          <span className="text-[10px] font-mono text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-semibold">
             Manual DSA
           </span>
         </div>
@@ -80,13 +80,13 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
 
       {/* Traversal Selector & Trigger */}
       <div className="space-y-2">
-        <label className="text-[11px] font-semibold text-slate-300 block font-mono">
+        <label className="text-[11px] font-semibold text-slate-700 block font-mono">
           Frontier Exploration Root Account:
         </label>
         <select
           value={selectedStart}
           onChange={(e) => setSelectedStart(e.target.value)}
-          className="w-full bg-slate-50 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-100 focus:outline-none focus:border-cyan-500 focus:bg-white"
+          className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white"
         >
           {allNodeIds.map((id) => (
             <option key={id} value={id}>
@@ -100,8 +100,8 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
             onClick={() => onRunBFS(selectedStart)}
             className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeAlgorithm === 'BFS'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-200 border border-slate-700'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <span>Run BFS</span>
@@ -112,8 +112,8 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
             onClick={() => onRunDFS(selectedStart)}
             className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeAlgorithm === 'DFS'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-200 border border-slate-700'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <span>Run DFS</span>
@@ -123,14 +123,14 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
       </div>
 
       {/* Anomaly & Ring Detection */}
-      <div className="pt-2 border-t border-slate-800 space-y-2">
+      <div className="pt-2 border-t border-slate-200 space-y-2">
         <div className="grid grid-cols-2 gap-2 font-mono">
           <button
             onClick={onRunCycles}
             className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeAlgorithm === 'CYCLE_DETECTION'
                 ? 'bg-rose-600 text-white shadow-sm'
-                : 'bg-rose-950 hover:bg-rose-900/40 text-rose-300 border border-rose-800'
+                : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
             }`}
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -142,7 +142,7 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
             className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
               activeAlgorithm === 'SCC'
                 ? 'bg-amber-600 text-white shadow-sm'
-                : 'bg-amber-950 hover:bg-amber-900/40 text-amber-300 border border-amber-800'
+                : 'bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200'
             }`}
           >
             <GitCommit className="w-3.5 h-3.5" />
@@ -152,18 +152,18 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
       </div>
 
       {/* Shortest Path Investigation (BFS Hops vs Dijkstra Cost) */}
-      <div className="pt-2 border-t border-slate-800 space-y-2.5">
+      <div className="pt-2 border-t border-slate-200 space-y-2.5">
         <div className="flex items-center justify-between">
-          <label className="text-[11px] font-semibold text-slate-300 block font-mono">
+          <label className="text-[11px] font-semibold text-slate-700 block font-mono">
             Shortest-Path Route:
           </label>
-          <div className="flex items-center gap-1 text-[10px] font-mono bg-slate-100 p-0.5 rounded-lg border border-slate-700">
+          <div className="flex items-center gap-1 text-[10px] font-mono bg-slate-100 p-0.5 rounded-lg border border-slate-200">
             <button
               onClick={() => setShortestPathMode('HOPS')}
               className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
                 shortestPathMode === 'HOPS'
-                  ? 'bg-white text-cyan-400 font-bold shadow-xs'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-blue-700 font-bold shadow-xs'
+                  : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               Min Hops (BFS)
@@ -172,8 +172,8 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
               onClick={() => setShortestPathMode('COST')}
               className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
                 shortestPathMode === 'COST'
-                  ? 'bg-white text-cyan-400 font-bold shadow-xs'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-blue-700 font-bold shadow-xs'
+                  : 'text-slate-500 hover:text-slate-800'
               }`}
             >
               Min Cost (Dijkstra)
@@ -183,11 +183,11 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
 
         <div className="grid grid-cols-2 gap-2 font-mono">
           <div>
-            <span className="text-[10px] text-slate-400 block mb-0.5">Source:</span>
+            <span className="text-[10px] text-slate-500 block mb-0.5">Source:</span>
             <select
               value={selectedStart}
               onChange={(e) => setSelectedStart(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-700 rounded p-1.5 text-xs text-slate-100 focus:outline-none focus:bg-white"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs text-slate-900 focus:outline-none focus:bg-white"
             >
               {allNodeIds.map((id) => (
                 <option key={id} value={id}>
@@ -197,11 +197,11 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
             </select>
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 block mb-0.5">Destination:</span>
+            <span className="text-[10px] text-slate-500 block mb-0.5">Destination:</span>
             <select
               value={selectedTarget}
               onChange={(e) => setSelectedTarget(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-700 rounded p-1.5 text-xs text-slate-100 focus:outline-none focus:bg-white"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs text-slate-900 focus:outline-none focus:bg-white"
             >
               {allNodeIds.map((id) => (
                 <option key={id} value={id}>
@@ -216,8 +216,8 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
           onClick={handleExecuteShortestPath}
           className={`w-full py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer font-mono ${
             activeAlgorithm === 'DIJKSTRA' || (activeAlgorithm === 'BFS' && shortestPathMode === 'HOPS')
-              ? 'bg-cyan-600 text-white shadow-sm'
-              : 'bg-cyan-950 hover:bg-cyan-900/40 text-cyan-400 border border-cyan-800'
+              ? 'bg-blue-600 text-white shadow-sm'
+              : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
           }`}
         >
           <Route className="w-3.5 h-3.5" />
@@ -228,15 +228,15 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
       </div>
 
       {/* Account Deep Investigation Trigger */}
-      <div className="pt-2 border-t border-slate-800 space-y-2">
-        <label className="text-[11px] font-semibold text-slate-300 block font-mono">
+      <div className="pt-2 border-t border-slate-200 space-y-2">
+        <label className="text-[11px] font-semibold text-slate-700 block font-mono">
           Target Account Forensic Audit:
         </label>
         <div className="flex gap-2 font-mono">
           <select
             value={selectedInvestigate}
             onChange={(e) => setSelectedInvestigate(e.target.value)}
-            className="flex-1 bg-slate-50 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:outline-none focus:bg-white"
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-900 focus:outline-none focus:bg-white"
           >
             {allNodeIds.map((id) => (
               <option key={id} value={id}>
@@ -247,9 +247,9 @@ export const AlgorithmControls: React.FC<AlgorithmControlsProps> = ({
 
           <button
             onClick={() => onAnalyzeAccount(selectedInvestigate)}
-            className="py-2 px-3.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-100 border border-slate-700 flex items-center gap-1.5 cursor-pointer transition-colors"
+            className="py-2 px-3.5 rounded-lg text-xs font-semibold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors"
           >
-            <Search className="w-3.5 h-3.5 text-cyan-400" />
+            <Search className="w-3.5 h-3.5 text-blue-600" />
             <span>Audit</span>
           </button>
         </div>

@@ -456,6 +456,61 @@ tbody tr:hover {
   background-color: #f8fafc;
 }
 
+/* Comprehensive Hover Utilities */
+.hover\:bg-slate-50:hover { background-color: #f8fafc; }
+.hover\:bg-slate-100:hover { background-color: #f1f5f9; }
+.hover\:bg-slate-200:hover { background-color: #e2e8f0; }
+.hover\:bg-slate-700:hover { background-color: #cbd5e1; }
+.hover\:bg-slate-800:hover { background-color: #f1f5f9; }
+.hover\:bg-slate-900:hover { background-color: #ffffff; }
+
+.hover\:text-slate-100:hover { color: #0f172a; }
+.hover\:text-slate-200:hover { color: #1e293b; }
+.hover\:text-slate-300:hover { color: #334155; }
+.hover\:text-cyan-400:hover { color: #2563eb; }
+.hover\:text-cyan-300:hover { color: #1d4ed8; }
+
+.hover\:border-slate-500:hover { border-color: #94a3b8; }
+.hover\:border-slate-600:hover { border-color: #64748b; }
+.hover\:border-slate-700:hover { border-color: #cbd5e1; }
+.hover\:border-cyan-500:hover { border-color: #2563eb; }
+.hover\:border-rose-400:hover { border-color: #dc2626; }
+.hover\:border-amber-600\/60:hover { border-color: #d97706; }
+
+.hover\:bg-cyan-500:hover { background-color: #1d4ed8; }
+.hover\:bg-cyan-500\/30:hover { background-color: #dbeafe; }
+.hover\:bg-amber-500\/30:hover { background-color: #fef3c7; }
+.hover\:bg-rose-900\/40:hover { background-color: #fee2e2; }
+.hover\:bg-cyan-900\/40:hover { background-color: #eff6ff; }
+.hover\:bg-emerald-900\/40:hover { background-color: #ecfdf5; }
+.hover\:bg-rose-950\/20:hover { background-color: #fef2f2; }
+
+.hover\:-translate-y-0\.5:hover { transform: translateY(-2px); }
+.hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -1px rgba(15, 23, 42, 0.04); }
+
+/* Focus and Active States */
+.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+.focus\:border-cyan-500:focus { border-color: #2563eb; }
+.focus\:bg-white:focus { background-color: #ffffff; }
+
+/* Disabled States */
+.disabled\:opacity-30:disabled { opacity: 0.3; cursor: not-allowed; }
+.disabled\:opacity-50:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Subtle Rings */
+.ring-2 { box-shadow: 0 0 0 2px currentColor; }
+.ring-blue-500 { --tw-ring-color: #2563eb; box-shadow: 0 0 0 2px #2563eb; }
+.ring-cyan-400 { --tw-ring-color: #3b82f6; box-shadow: 0 0 0 2px #3b82f6; }
+.ring-amber-400 { --tw-ring-color: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
+.ring-rose-500\/30 { box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3); }
+.ring-amber-500\/40 { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4); }
+.ring-amber-400\/50 { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5); }
+.ring-cyan-400\/50 { box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
+
+/* Backdrop Blur */
+.backdrop-blur-sm { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.bg-black\/70 { background-color: rgba(15, 23, 42, 0.6); }
+
 /* Print Styles */
 @media print {
   body {
@@ -471,3 +526,4 @@ tbody tr:hover {
     padding: 0 !important;
   }
 }
+

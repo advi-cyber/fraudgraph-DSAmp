@@ -20,6 +20,17 @@ export const Reports: React.FC<ReportsPageProps> = ({
     initialAccountId || (allNodeIds.length > 0 ? allNodeIds[0] : '')
   );
 
+  React.useEffect(() => {
+    if (initialAccountId && graph.hasNode(initialAccountId)) {
+      setSelectedAccount(initialAccountId);
+    } else if (allNodeIds.length > 0 && (!selectedAccount || !graph.hasNode(selectedAccount))) {
+      setSelectedAccount(allNodeIds[0]);
+    } else if (allNodeIds.length === 0) {
+      setSelectedAccount('');
+    }
+  }, [allNodeIds, initialAccountId, graph]);
+
+
   const report = selectedAccount && graph.hasNode(selectedAccount)
     ? generateAccountInvestigationReport(graph, selectedAccount)
     : null;

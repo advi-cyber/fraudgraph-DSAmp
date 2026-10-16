@@ -34,12 +34,12 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
 }) => {
   if (steps.length === 0) {
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg select-none">
+      <div className="bg-white border border-slate-800 rounded-xl p-5 shadow-xs select-none">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-800 text-xs font-mono font-semibold text-slate-400">
           <Terminal className="w-4 h-4 text-cyan-400" />
           <span>ALGORITHM EXECUTION CONSOLE</span>
         </div>
-        <div className="py-8 text-center text-xs font-mono text-slate-500">
+        <div className="py-8 text-center text-xs font-mono text-slate-400">
           No algorithm currently active. Select an algorithm from the control panel to view live DSA step execution.
         </div>
       </div>
@@ -50,25 +50,25 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
   const complexityInfo = ALGORITHM_COMPLEXITIES[algoKey];
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg select-none space-y-4">
+    <div className="bg-white border border-slate-800 rounded-xl p-5 shadow-xs select-none space-y-4">
       {/* Console Header & Stepper Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
         <div className="flex items-center gap-2 font-mono">
           <Terminal className="w-4 h-4 text-cyan-400" />
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-100">
             {algoKey} LIVE EXECUTION
           </span>
-          <span className="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700">
+          <span className="text-[11px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-bold">
             Step {currentStepIndex + 1} of {steps.length}
           </span>
         </div>
 
         {/* Playback Button Group */}
-        <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800 font-mono text-xs">
+        <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-lg border border-slate-700 font-mono text-xs">
           <button
             onClick={onPrev}
             disabled={currentStepIndex <= 0}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 disabled:opacity-30 cursor-pointer"
+            className="p-1.5 rounded hover:bg-slate-100 text-slate-300 hover:text-slate-100 disabled:opacity-30 cursor-pointer"
             title="Previous Step"
           >
             <SkipBack className="w-3.5 h-3.5" />
@@ -77,7 +77,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
           {isPlaying ? (
             <button
               onClick={onPause}
-              className="p-1.5 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 cursor-pointer"
+              className="p-1.5 rounded bg-amber-950 text-amber-400 border border-amber-800 hover:bg-amber-900/40 cursor-pointer"
               title="Pause"
             >
               <Pause className="w-3.5 h-3.5" />
@@ -86,7 +86,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
             <button
               onClick={onPlay}
               disabled={currentStepIndex >= steps.length - 1}
-              className="p-1.5 rounded bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 disabled:opacity-30 cursor-pointer"
+              className="p-1.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 hover:bg-cyan-900/40 disabled:opacity-30 cursor-pointer"
               title="Play"
             >
               <Play className="w-3.5 h-3.5" />
@@ -96,7 +96,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
           <button
             onClick={onNext}
             disabled={currentStepIndex >= steps.length - 1}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 disabled:opacity-30 cursor-pointer"
+            className="p-1.5 rounded hover:bg-slate-100 text-slate-300 hover:text-slate-100 disabled:opacity-30 cursor-pointer"
             title="Next Step"
           >
             <SkipForward className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
 
           <button
             onClick={onReset}
-            className="p-1.5 rounded hover:bg-slate-800 text-slate-300 cursor-pointer ml-1"
+            className="p-1.5 rounded hover:bg-slate-100 text-slate-300 hover:text-slate-100 cursor-pointer ml-1"
             title="Reset to Step 1"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -123,7 +123,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
             onChange={(e) => onSpeedChange(1700 - Number(e.target.value))}
             className="w-18 accent-cyan-400 cursor-pointer"
           />
-          <span className="w-10 text-right">{((1800 - playbackSpeed) / 1000).toFixed(1)}x</span>
+          <span className="w-10 text-right font-bold text-slate-300">{((1800 - playbackSpeed) / 1000).toFixed(1)}x</span>
         </div>
       </div>
 
@@ -131,15 +131,15 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
       {currentStep && (
         <div className="space-y-3 font-mono">
           {/* Current Action & Narrative */}
-          <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-700">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-cyan-950 text-cyan-300 border border-cyan-800">
+              <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-cyan-950 text-cyan-400 border border-cyan-800">
                 ACTION: {currentStep.action}
               </span>
               {currentStep.currentNode && (
                 <span className="text-[11px] text-slate-400">
                   Active Node:{' '}
-                  <span className="text-amber-300 font-bold">[{currentStep.currentNode}]</span>
+                  <span className="text-amber-500 font-bold">[{currentStep.currentNode}]</span>
                 </span>
               )}
             </div>
@@ -153,7 +153,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
             {/* Queue State (for BFS) */}
             {currentStep.queueState !== undefined && (
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-700 min-h-[64px]">
                 <span className="text-[10px] uppercase text-slate-400 block mb-1">
                   FIFO Queue [Front → Back] ({currentStep.queueState.length}):
                 </span>
@@ -164,15 +164,15 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
                         key={i}
                         className={`px-1.5 py-0.5 rounded text-[11px] border ${
                           i === 0
-                            ? 'bg-amber-950/80 text-amber-300 border-amber-600 font-bold'
-                            : 'bg-slate-900 text-slate-300 border-slate-800'
+                            ? 'bg-amber-950 text-amber-400 border-amber-800 font-bold'
+                            : 'bg-white text-slate-200 border-slate-700'
                         }`}
                       >
                         {node}
                       </span>
                     ))
                   ) : (
-                    <span className="text-slate-600 text-[11px]">Empty Queue</span>
+                    <span className="text-slate-400 text-[11px]">Empty Queue</span>
                   )}
                 </div>
               </div>
@@ -180,7 +180,7 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
 
             {/* Stack State (for DFS / SCC) */}
             {currentStep.stackState !== undefined && (
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-700 min-h-[64px]">
                 <span className="text-[10px] uppercase text-slate-400 block mb-1">
                   LIFO Call Stack [Top → Bottom] ({currentStep.stackState.length}):
                 </span>
@@ -191,22 +191,22 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
                         key={i}
                         className={`px-1.5 py-0.5 rounded text-[11px] border ${
                           i === 0
-                            ? 'bg-cyan-950/80 text-cyan-300 border-cyan-600 font-bold'
-                            : 'bg-slate-900 text-slate-300 border-slate-800'
+                            ? 'bg-cyan-950 text-cyan-400 border-cyan-800 font-bold'
+                            : 'bg-white text-slate-200 border-slate-700'
                         }`}
                       >
                         {node}
                       </span>
                     ))
                   ) : (
-                    <span className="text-slate-600 text-[11px]">Empty Stack</span>
+                    <span className="text-slate-400 text-[11px]">Empty Stack</span>
                   )}
                 </div>
               </div>
             )}
 
             {/* Visited Set */}
-            <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+            <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-700 min-h-[64px]">
               <span className="text-[10px] uppercase text-slate-400 block mb-1">
                 Visited Nodes Set ({currentStep.visitedNodes.length}):
               </span>
@@ -215,13 +215,13 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
                   currentStep.visitedNodes.map((node, i) => (
                     <span
                       key={i}
-                      className="px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 border border-slate-800"
+                      className="px-1.5 py-0.5 rounded text-[10px] bg-white text-slate-300 border border-slate-700"
                     >
                       {node}
                     </span>
                   ))
                 ) : (
-                  <span className="text-slate-600 text-[11px]">None</span>
+                  <span className="text-slate-400 text-[11px]">None</span>
                 )}
               </div>
             </div>
@@ -231,16 +231,16 @@ export const AlgorithmConsole: React.FC<AlgorithmConsoleProps> = ({
 
       {/* Complexity & CO Academic Footer */}
       {complexityInfo && (
-        <div className="p-2 rounded bg-slate-950/70 border border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
+        <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-400">
           <div>
             <span>Time Complexity: </span>
             <span className="text-cyan-400 font-bold">{complexityInfo.timeComplexity}</span>
-            <span className="mx-2">·</span>
+            <span className="mx-2 text-slate-300">·</span>
             <span>Space: </span>
             <span className="text-cyan-400 font-bold">{complexityInfo.spaceComplexity}</span>
           </div>
-          <div className="text-[10px] text-slate-500">
-            {complexityInfo.dataStructuresUsed.join(', ')}
+          <div className="text-[10px] text-slate-400 font-sans">
+            Structures: {complexityInfo.dataStructuresUsed.join(', ')}
           </div>
         </div>
       )}

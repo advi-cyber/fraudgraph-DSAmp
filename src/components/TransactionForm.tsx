@@ -69,19 +69,19 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
+      <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-2">
-            <PlusCircle className="w-5 h-5 text-cyan-400" />
-            <h3 className="font-bold text-sm text-slate-100 font-mono tracking-wide">
+            <PlusCircle className="w-5 h-5 text-blue-600" />
+            <h3 className="font-bold text-sm text-slate-900 font-mono tracking-wide">
               DISPATCH DIRECTED TRANSACTION
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -90,8 +90,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 rounded-lg bg-rose-950/60 border border-rose-800 text-rose-300 text-xs flex items-center gap-2 font-mono">
-              <ShieldAlert className="w-4 h-4 shrink-0" />
+            <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2 font-mono">
+              <ShieldAlert className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{error}</span>
             </div>
           )}
@@ -99,8 +99,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <div className="grid grid-cols-2 gap-4">
             {/* Sender Account */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-300">
-                Sender Account <span className="text-rose-400">*</span>
+              <label className="text-xs font-mono font-medium text-slate-700">
+                Sender Account <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
@@ -108,7 +108,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 placeholder="e.g. ACC-ALPHA"
                 value={sender}
                 onChange={(e) => setSender(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 placeholder:text-slate-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white placeholder:text-slate-400"
                 required
               />
               <datalist id="existing-senders">
@@ -120,8 +120,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
             {/* Receiver Account */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-300">
-                Receiver Account <span className="text-rose-400">*</span>
+              <label className="text-xs font-mono font-medium text-slate-700">
+                Receiver Account <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
@@ -129,7 +129,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 placeholder="e.g. ACC-BETA"
                 value={receiver}
                 onChange={(e) => setReceiver(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 placeholder:text-slate-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white placeholder:text-slate-400"
                 required
               />
               <datalist id="existing-receivers">
@@ -143,8 +143,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <div className="grid grid-cols-2 gap-4">
             {/* Amount */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-300">
-                Amount (₹ INR) <span className="text-rose-400">*</span>
+              <label className="text-xs font-mono font-medium text-slate-700">
+                Amount (₹ INR) <span className="text-rose-500">*</span>
               </label>
               <input
                 type="number"
@@ -153,20 +153,20 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 placeholder="e.g. 185000"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500 placeholder:text-slate-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white placeholder:text-slate-400"
                 required
               />
             </div>
 
             {/* Transaction Type */}
             <div className="space-y-1.5">
-              <label className="text-xs font-mono font-medium text-slate-300">
+              <label className="text-xs font-mono font-medium text-slate-700">
                 Channel / Classification
               </label>
               <select
                 value={txType}
                 onChange={(e) => setTxType(e.target.value as any)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white"
               >
                 <option value="TRANSFER">P2P Electronic Transfer</option>
                 <option value="WIRE">RTGS / International Wire</option>
@@ -179,7 +179,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
           {/* Description & Optional Custom ID */}
           <div className="space-y-1.5">
-            <label className="text-xs font-mono font-medium text-slate-300">
+            <label className="text-xs font-mono font-medium text-slate-700">
               Purpose / Reference Note
             </label>
             <input
@@ -187,27 +187,27 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               placeholder="e.g. Technical Services Retainer Fee"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 placeholder:text-slate-600"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white placeholder:text-slate-400"
             />
           </div>
 
           {/* Academic note */}
-          <div className="p-3 rounded-lg bg-slate-950/70 border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+          <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-600 font-mono">
             Adding this transaction will auto-create missing nodes, insert a directed edge with weight = amount, and dynamically re-evaluate graph topological invariants.
           </div>
 
           {/* Footer Actions */}
-          <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-800">
+          <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg shadow-cyan-600/20 transition-all cursor-pointer"
+              className="px-5 py-2 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-sm transition-all cursor-pointer"
             >
               Insert Directed Edge
             </button>

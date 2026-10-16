@@ -69,18 +69,18 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg select-none space-y-4">
+    <div className="bg-white border border-slate-800 rounded-xl p-5 shadow-xs select-none space-y-4">
       {/* Table Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
         {/* Search */}
-        <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 flex-1 min-w-[240px]">
-          <Search className="w-4 h-4 text-slate-500 shrink-0" />
+        <div className="flex items-center gap-2 bg-slate-50 border border-slate-700 rounded-lg px-3 py-2 flex-1 min-w-[240px]">
+          <Search className="w-4 h-4 text-slate-400 shrink-0" />
           <input
             type="text"
             placeholder="Search by TxID, Sender, Receiver, or Description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none w-full font-mono"
+            className="bg-transparent text-xs text-slate-100 placeholder:text-slate-400 focus:outline-none w-full font-mono"
           />
         </div>
 
@@ -89,7 +89,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs font-mono text-slate-300 focus:outline-none"
+            className="bg-slate-50 border border-slate-700 rounded-lg px-2.5 py-2 text-xs font-mono text-slate-200 focus:outline-none cursor-pointer"
           >
             <option value="ALL">All Channels</option>
             <option value="TRANSFER">P2P Transfer</option>
@@ -104,15 +104,15 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
             placeholder="Min ₹ Amount"
             value={minAmount}
             onChange={(e) => setMinAmount(e.target.value)}
-            className="w-28 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 text-xs font-mono text-slate-300 focus:outline-none placeholder:text-slate-600"
+            className="w-28 bg-slate-50 border border-slate-700 rounded-lg px-2.5 py-2 text-xs font-mono text-slate-200 focus:outline-none placeholder:text-slate-400"
           />
 
           <button
             onClick={() => setFlaggedOnly(!flaggedOnly)}
             className={`px-3 py-2 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-colors cursor-pointer border ${
               flaggedOnly
-                ? 'bg-rose-950/80 text-rose-300 border-rose-600'
-                : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                ? 'bg-rose-950 text-rose-400 border-rose-800 font-bold'
+                : 'bg-slate-50 border-slate-700 text-slate-300 hover:text-slate-100 hover:bg-slate-100'
             }`}
           >
             <ShieldAlert className="w-3.5 h-3.5 text-rose-400" />
@@ -121,7 +121,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
 
           <button
             onClick={onOpenAddModal}
-            className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white transition-colors cursor-pointer shadow-md shadow-cyan-600/20"
+            className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white transition-colors cursor-pointer shadow-xs"
           >
             + Add Transaction
           </button>
@@ -131,7 +131,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
       {/* Table Data */}
       <div className="overflow-x-auto rounded-lg border border-slate-800">
         <table className="w-full text-left font-mono text-xs">
-          <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider sticky top-0">
+          <thead className="bg-slate-50 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider sticky top-0">
             <tr>
               <th className="py-2.5 px-4">Tx ID</th>
               <th className="py-2.5 px-4">Directed Edge (Sender → Receiver)</th>
@@ -157,7 +157,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
               <th className="py-2.5 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60 bg-slate-900/60 text-slate-300">
+          <tbody className="divide-y divide-slate-800 bg-white text-slate-300">
             {filteredTransactions.length > 0 ? (
               filteredTransactions.map((tx) => {
                 const isCycle = cycleEdgeIds.includes(tx.id);
@@ -166,17 +166,17 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                 return (
                   <tr
                     key={tx.id}
-                    className={`hover:bg-slate-800/50 transition-colors ${
+                    className={`hover:bg-slate-50 transition-colors ${
                       isFlagged ? 'bg-rose-950/20' : ''
                     }`}
                   >
                     {/* ID */}
-                    <td className="py-3 px-4 font-bold text-slate-200">
+                    <td className="py-3 px-4 font-bold text-slate-100">
                       <div className="flex items-center gap-2">
                         {isFlagged ? (
-                          <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                          <ShieldAlert className="w-3.5 h-3.5 text-rose-500 shrink-0" />
                         ) : (
-                          <CheckCircle2 className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         )}
                         <span>{tx.id}</span>
                       </div>
@@ -185,11 +185,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     {/* Sender -> Receiver */}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-200 font-semibold">
+                        <span className="px-2 py-0.5 rounded bg-slate-50 border border-slate-700 text-slate-100 font-semibold">
                           {tx.sender}
                         </span>
-                        <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
-                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-200 font-semibold">
+                        <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="px-2 py-0.5 rounded bg-slate-50 border border-slate-700 text-slate-100 font-semibold">
                           {tx.receiver}
                         </span>
                       </div>
@@ -201,8 +201,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     </td>
 
                     {/* Amount */}
-                    <td className="py-3 px-4 font-bold text-slate-100">
-                      <span className={isFlagged ? 'text-rose-400' : 'text-emerald-400'}>
+                    <td className="py-3 px-4 font-bold">
+                      <span className={isFlagged ? 'text-rose-500 font-black' : 'text-emerald-500'}>
                         {formatINR(tx.amount)}
                       </span>
                     </td>
@@ -215,11 +215,11 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     {/* Status & Channel */}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5">
-                        <span className="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 border border-slate-700">
+                        <span className="px-2 py-0.5 rounded text-[10px] bg-slate-50 text-slate-300 border border-slate-700">
                           {tx.type || 'TRANSFER'}
                         </span>
                         {isFlagged && (
-                          <span className="px-2 py-0.5 rounded text-[10px] bg-rose-950 text-rose-300 border border-rose-800 font-bold">
+                          <span className="px-2 py-0.5 rounded text-[10px] bg-rose-950 text-rose-400 border border-rose-800 font-bold">
                             {isCycle ? 'CYCLE' : 'FLAGGED'}
                           </span>
                         )}
@@ -227,21 +227,23 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                     </td>
 
                     {/* Delete action */}
+                    <td className="py-3 px-4 text-right">
                       {onDeleteTransaction && (
                         <button
                           onClick={() => onDeleteTransaction(tx.id)}
-                          className="p-1.5 rounded hover:bg-rose-950 hover:text-rose-400 text-slate-500 transition-colors cursor-pointer"
+                          className="p-1.5 rounded hover:bg-rose-950 hover:text-rose-400 text-slate-400 transition-colors cursor-pointer"
                           title="Delete Transaction & Remove Edge"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       )}
+                    </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-slate-500 font-mono">
+                <td colSpan={6} className="py-8 text-center text-slate-400 font-mono">
                   No transactions match the selected criteria.
                 </td>
               </tr>

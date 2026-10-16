@@ -24,7 +24,12 @@ export const FraudInvestigation: React.FC<FraudInvestigationProps> = ({
     rings.length > 0 ? rings[0] : null
   );
 
+  React.useEffect(() => {
+    setSelectedRing(rings.length > 0 ? rings[0] : null);
+  }, [graph]);
+
   const [activeTab, setActiveTab] = useState<'RINGS' | 'CYCLES'>('RINGS');
+
 
   const highlightedNodes = selectedRing ? selectedRing.accounts : [];
   const cycleEdges = cycleResult.cycles.flatMap((c) => c.edgeIds);
@@ -34,34 +39,34 @@ export const FraudInvestigation: React.FC<FraudInvestigationProps> = ({
   return (
     <div className="space-y-5 select-none">
       {/* Top Banner */}
-      <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 shadow-md flex flex-wrap items-center justify-between gap-4">
+      <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] uppercase font-mono font-bold tracking-widest px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-widest px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
               DSA EXTENSION: TARJAN SCC + 3-STATE DFS
             </span>
           </div>
-          <h2 className="text-base font-bold font-mono tracking-wide text-slate-100 flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-rose-400" />
+          <h2 className="text-base font-bold font-mono tracking-wide text-slate-900 flex items-center gap-2">
+            <ShieldAlert className="w-5 h-5 text-rose-600" />
             <span>POTENTIALLY SUSPICIOUS TRANSACTION RING DETECTION</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs text-slate-500 mt-1 max-w-2xl">
             Identifies mutual reachability components and closed circular fund flow loops. Graph patterns indicate anomalous topological routing for regulatory review, not automatic proof of criminality.
           </p>
         </div>
 
         <div className="flex items-center gap-4 font-mono text-xs">
-          <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-center">
-            <span className="text-[10px] text-slate-400 uppercase block">Rings Detected:</span>
-            <span className="text-amber-400 font-bold text-base">{rings.length}</span>
+          <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-center">
+            <span className="text-[10px] text-slate-500 uppercase block">Rings Detected:</span>
+            <span className="text-amber-800 font-bold text-base">{rings.length}</span>
           </div>
-          <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-center">
-            <span className="text-[10px] text-slate-400 uppercase block">Circular Loops:</span>
-            <span className="text-rose-400 font-bold text-base">{cycleResult.cycles.length}</span>
+          <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-center">
+            <span className="text-[10px] text-slate-500 uppercase block">Circular Loops:</span>
+            <span className="text-rose-700 font-bold text-base">{cycleResult.cycles.length}</span>
           </div>
-          <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-center">
-            <span className="text-[10px] text-slate-400 uppercase block">Ring Volume:</span>
-            <span className="text-emerald-400 font-bold text-base">{formatINR(totalRingVolume)}</span>
+          <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-center">
+            <span className="text-[10px] text-slate-500 uppercase block">Ring Volume:</span>
+            <span className="text-emerald-700 font-bold text-base">{formatINR(totalRingVolume)}</span>
           </div>
         </div>
       </div>
@@ -70,13 +75,13 @@ export const FraudInvestigation: React.FC<FraudInvestigationProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left Column: Rings & Cycles Switcher (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="flex rounded-lg bg-slate-950 p-1 border border-slate-800 font-mono text-xs">
+          <div className="flex rounded-lg bg-slate-100 p-1 border border-slate-200 font-mono text-xs">
             <button
               onClick={() => setActiveTab('RINGS')}
               className={`flex-1 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
                 activeTab === 'RINGS'
-                  ? 'bg-amber-950 text-amber-300 border border-amber-800/80 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-amber-800 border border-amber-300 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Suspicious Rings ({rings.length})
@@ -85,8 +90,8 @@ export const FraudInvestigation: React.FC<FraudInvestigationProps> = ({
               onClick={() => setActiveTab('CYCLES')}
               className={`flex-1 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
                 activeTab === 'CYCLES'
-                  ? 'bg-rose-950 text-rose-300 border border-rose-800/80 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white text-rose-700 border border-rose-300 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Directed Cycles ({cycleResult.cycles.length})

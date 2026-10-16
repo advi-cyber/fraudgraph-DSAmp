@@ -53,7 +53,24 @@ export const Dashboard: React.FC<DashboardProps> = ({
   // Animation Hook
   const animation = useAlgorithmAnimation();
 
+  // Reset transient dataset-specific state atomically when graph topology updates
+  React.useEffect(() => {
+    setFilterCyclesOnly(false);
+    setSelectedCycle(null);
+    setDijkstraResult(null);
+    setBfsPathResult(null);
+    setSelectedEdgeId(null);
+    setActiveAlgorithm(null);
+    animation.reset();
+    if (allNodeIds.length > 0) {
+      setSelectedAccountId(allNodeIds[0]);
+    } else {
+      setSelectedAccountId(null);
+    }
+  }, [graph]);
+
   // Run BFS
+
   const handleRunBFS = (startNode: string) => {
     setActiveAlgorithm('BFS');
     setSelectedCycle(null);

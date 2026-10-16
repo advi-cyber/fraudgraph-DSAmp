@@ -84,15 +84,27 @@ const GraphCanvas: React.FC<GraphVisualizerProps> = ({
       },
     }));
 
-    if (filterCyclesOnly) {
+    if (filterCyclesOnly && cycleEdgeIds.length > 0) {
       edges = edges.filter((e) => cycleEdgeIds.includes(e.id));
       const activeNodeIds = new Set(edges.flatMap((e) => [e.source, e.target]));
       const filteredNodes = updatedNodes.filter((n) => activeNodeIds.has(n.id));
       return { flowNodes: filteredNodes, flowEdges: edges };
     }
 
+
     return { flowNodes: updatedNodes, flowEdges: edges };
   }, [graph, highlightedNodes, highlightedEdges, currentNode, cycleEdgeIds, filterCyclesOnly]);
+
+  // Automatically fit viewport whenever graph topology or node count changes
+  React.useEffect(() => {
+    if (flowNodes.length > 0) {
+      // Small timeout ensures React Flow has committed DOM measurements
+      const timer = setTimeout(() => {
+        fitView({ padding: 0.15, duration: 300 });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [graph, flowNodes.length, fitView]);
 
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
@@ -111,6 +123,7 @@ const GraphCanvas: React.FC<GraphVisualizerProps> = ({
     },
     [onSelectEdge]
   );
+
 
   return (
     <div className="relative w-full h-full min-h-[500px] bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-sm select-none">

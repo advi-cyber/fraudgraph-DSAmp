@@ -1,60 +1,17 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Transaction } from '../types/transaction';
-import { Graph } from '../dataStructures/Graph';
-import { buildGraphFromTransactions } from '../services/graphBuilder';
-import { sampleCases, DemoCase } from '../data/sampleCases';
-import { detectDirectedCycles } from '../algorithms/cycleDetection';
-import { runTarjanSCC } from '../algorithms/stronglyConnectedComponents';
-import { calculateAccountRisk } from '../services/riskAnalyzer';
-import { GraphStats } from '../types/graph';
+import { ApplicationSnapshot } from '../types/dataset';
+import { createApplicationSnapshot } from '../services/dataPipeline';
+import { sampleCases } from '../data/sampleCases';
 
 export function useGraph(initialTransactions?: Transaction[]) {
-  // Start with complex dataset (case 5) so the user has an immediate, rich banking network
-  const defaultTransactions = initialTransactions || sampleCases[4].transactions;
-  const [transactions, setTransactions] = useState<Transaction[]>(defaultTransactions);
-  const [activeDemoCaseId, setActiveDemoCaseId] = useState<string>('case-complex-network');
-
-  // Build manual Graph instance
-  const graph = useMemo(() => {
-    return buildGraphFromTransactions(transactions);
-  }, [transactions]);
-
-  // Compute graph statistics
-  const stats: GraphStats = useMemo(() => {
-    const cycleRes = detectDirectedCycles(graph);
-    const sccRes = runTarjanSCC(graph);
-    const nodeCount = graph.getNodeCount();
-    const edgeCount = graph.getEdgeCount();
-    const totalVolume = graph.getTotalTransactionVolume();
-    const avgDegree = nodeCount > 0 ? (edgeCount * 2) / nodeCount : 0;
-    const density = nodeCount > 1 ? edgeCount / (nodeCount * (nodeCount - 1)) : 0;
-    const multiNodeSCC = sccRes.components.filter((c) => c.nodes.length >= 2);
-
-    let suspiciousAccountsCount = 0;
-    const cycleNodesSet = new Set(cycleRes.cycles.flatMap((c) => c.nodes));
-    for (const nodeId of graph.getNodeIds()) {
-      if (cycleNodesSet.has(nodeId)) {
-        suspiciousAccountsCount++;
-      } else {
-        const risk = calculateAccountRisk(graph, nodeId, cycleRes, sccRes);
-        if (risk.score >= 50) {
-          suspiciousAccountsCount++;
-        }
-      }
+  // Initialize with the standard complex network (case 5) or custom transactions
+  const [snapshot, setSnapshot] = useState<ApplicationSnapshot>(() => {
+    if (initialTransactions && initialTransactions.length > 0) {
+      return createApplicationSnapshot('case-custom-csv', initialTransactions);
     }
-
-    return {
-      totalNodes: nodeCount,
-      totalEdges: edgeCount,
-      totalVolume,
-      averageDegree: Number(avgDegree.toFixed(2)),
-      density: Number(density.toFixed(3)),
-      detectedCyclesCount: cycleRes.cycles.length,
-      suspiciousRingsCount: multiNodeSCC.length,
-      stronglyConnectedCount: sccRes.components.length,
-      suspiciousAccountsCount,
-    };
-  }, [graph]);
+    return createApplicationSnapshot('case-complex-network');
+  });
 
   const addTransaction = useCallback((tx: Omit<Transaction, 'id'> & { id?: string }) => {
     const newTx: Transaction = {
@@ -68,45 +25,50 @@ export function useGraph(initialTransactions?: Transaction[]) {
       status: tx.status || 'COMPLETED',
     };
 
-    setTransactions((prev) => [newTx, ...prev]);
+    setSnapshot((prev) => {
+      const updatedTxs = [newTx, ...prev.transactions];
+      return createApplicationSnapshot('case-custom-csv', updatedTxs);
+    });
   }, []);
 
   const deleteTransaction = useCallback((id: string) => {
-    setTransactions((prev) => prev.filter((t) => t.id !== id));
+    setSnapshot((prev) => {
+      const updatedTxs = prev.transactions.filter((t) => t.id !== id);
+      return createApplicationSnapshot('case-custom-csv', updatedTxs);
+    });
   }, []);
 
   const loadDemoCase = useCallback((caseId: string) => {
-    const found = sampleCases.find((c) => c.id === caseId);
-    if (found) {
-      setTransactions([...found.transactions]);
-      setActiveDemoCaseId(caseId);
+    try {
+      const nextSnapshot = createApplicationSnapshot(caseId);
+      setSnapshot(nextSnapshot);
+    } catch (err) {
+      console.error(`Failed to load dataset ${caseId}:`, err);
     }
   }, []);
 
   const resetToDefault = useCallback(() => {
-    setTransactions([...sampleCases[4].transactions]);
-    setActiveDemoCaseId('case-complex-network');
+    setSnapshot(createApplicationSnapshot('case-complex-network'));
   }, []);
 
   const clearAllTransactions = useCallback(() => {
-    setTransactions([]);
+    setSnapshot(createApplicationSnapshot('case-custom-csv', []));
   }, []);
 
   const importTransactions = useCallback((newTxs: Transaction[]) => {
-    setTransactions(newTxs);
-    setActiveDemoCaseId('case-custom-csv');
+    setSnapshot(createApplicationSnapshot('case-custom-csv', newTxs));
   }, []);
 
-  const allNodeIds = useMemo(() => {
-    return graph.getNodeIds();
-  }, [graph]);
-
   return {
-    graph,
-    transactions,
-    stats,
-    activeDemoCaseId,
-    allNodeIds,
+    snapshot,
+    graph: snapshot.graph,
+    transactions: snapshot.transactions,
+    stats: snapshot.stats,
+    activeDemoCaseId: snapshot.datasetId,
+    datasetName: snapshot.datasetName,
+    allNodeIds: snapshot.allNodeIds,
+    validation: snapshot.validation,
+    layout: snapshot.layout,
     addTransaction,
     deleteTransaction,
     loadDemoCase,
@@ -115,3 +77,4 @@ export function useGraph(initialTransactions?: Transaction[]) {
     importTransactions,
   };
 }
+
